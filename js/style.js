@@ -52,7 +52,7 @@ window.onload = function () {
         moveY = 1;//-----------球向上
         posL = Math.floor(Math.random() * 1000);//------X轴随机一个位置
         posT = 80;
-        startTime.innerHTML="00:00";
+        startTime.innerHTML = "00:00";
         var date1 = new Date();
         timer1 = setInterval(function () {
             var date2 = new Date();
@@ -62,21 +62,33 @@ window.onload = function () {
         Start();
     };
 //----键盘操作
-    document.onkeydown = function (ev) {
-        var evl = ev || event;
-        if (evl.keyCode === 37 || evl.keyCode === 65) {
+    var direction = {left: false, right: false};
+    var timer2 = null;
+    setInterval(function () {
+        if (direction.left) {
             if (plate.offsetLeft >= 20) {
                 plate.style.left = plate.offsetLeft - 20 + "px";
             } else {
                 plate.style.left = 0;
             }
-        } else if (evl.keyCode === 39 || evl.keyCode === 68) {
+        } else if (direction.right) {
             if (box.clientWidth - plate.offsetWidth - plate.offsetLeft >= 20) {
                 plate.style.left = plate.offsetLeft + 20 + "px";
             } else {
                 plate.style.left = box.clientWidth - plate.offsetWidth + "px";
             }
         }
+    }, 50);
+    document.onkeydown = function (ev) {
+        var evl = ev || event;
+        if (evl.keyCode === 37 || evl.keyCode === 65) {
+            direction.left = true;
+        } else if (evl.keyCode === 39 || evl.keyCode === 68) {
+            direction.right = true;
+        }
+    };
+    document.onkeyup=function () {
+        direction={left: false, right: false};
     };
     function Start() {
         clearInterval(timer);
